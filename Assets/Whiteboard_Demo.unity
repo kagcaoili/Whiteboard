@@ -205,7 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e4c6781337746499fc541d960fdd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cube: {fileID: 1274622318582212, guid: 61e9cbb017fea7e4a834be1dc8a67a79, type: 2}
+  scribble: {fileID: 120734336443051206, guid: 518fd7680b49679408e636199d8ae626, type: 2}
+  width: 0.1
+  offset: 0.1
 --- !u!4 &1228300525
 Transform:
   m_ObjectHideFlags: 0
