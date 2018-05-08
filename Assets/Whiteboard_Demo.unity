@@ -304,6 +304,7 @@ MonoBehaviour:
   scribble: {fileID: 120734336443051206, guid: 518fd7680b49679408e636199d8ae626, type: 2}
   width: 0.1
   offset: 0.1
+  detectingRadius: 1
 --- !u!4 &1228300525
 Transform:
   m_ObjectHideFlags: 0
