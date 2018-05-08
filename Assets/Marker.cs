@@ -11,35 +11,36 @@ public class Marker : MonoBehaviour {
     private Ray ray;
     private Vector3 lastPoint;
 
-    public float detectingRadius;
+    public float threshold;
+
+    private GameObject controller;
 
 	// Use this for initialization
 	void Start () {
 	}
 
-    private bool isMoving(Vector3 lastPosition, Vector3 currentPos)
+    // check if the user moved their marker more than a certain distance to be considered as a 'movement'
+    private bool IsMoving(Vector3 lastPosition, Vector3 currentPos)
     {
-        if (currentPos.x < (lastPosition.x - detectingRadius) && currentPos.x > (lastPosition.x + detectingRadius))
-        {
-            if (currentPos.y < (lastPosition.y - detectingRadius) && currentPos.y > (lastPosition.y + detectingRadius))
-            {
-                Debug.Log("Moving from " + lastPoint + " to " + currentPos);
-                return true;
-            }
-        }
+        float difference = Vector3.Distance(lastPosition, currentPos);
 
-        return false;
+        return difference > threshold;
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-        Vector3 mousePos = Input.mousePosition;
-        ray = Camera.main.ScreenPointToRay(mousePos);
+
+    private void Draw_VR()
+    {
+
+        Vector3 position = controller.transform.position;
+
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(position, transform.forward, out hit))
         {
             if (hit.collider.gameObject.GetComponent<Whiteboard>())
             {
+
+
+
                 if (Input.GetMouseButtonDown(0))
                 {
                     LineRenderer currScribble = (LineRenderer)Instantiate(scribble, new Vector3(hit.point.x, hit.point.y, hit.point.z), Quaternion.identity);
@@ -52,11 +53,12 @@ public class Marker : MonoBehaviour {
 
                     currScribble.SetPosition(1, lastPoint);
 
-                } else if (Input.GetMouseButton(0))
+                    currScribble.transform.parent = hit.collider.gameObject.transform;
+
+                }
+                else if (Input.GetMouseButton(0))
                 {
-                    Debug.Log("Last Point: " + lastPoint);
-                    Debug.Log("Currenet mosue position: " + hit.point);
-                    if (isMoving(lastPoint, hit.point))
+                    if (IsMoving(lastPoint, hit.point))
                     {
                         LineRenderer currScribble = (LineRenderer)Instantiate(scribble, new Vector3(hit.point.x, hit.point.y, hit.point.z), Quaternion.identity);
                         currScribble.startWidth = width;
@@ -66,9 +68,65 @@ public class Marker : MonoBehaviour {
                         currScribble.SetPosition(1, hit.point);
 
                         lastPoint = hit.point;
+
+                        currScribble.transform.parent = hit.collider.gameObject.transform;
                     }
                 }
             }
         }
-	}
+    }
+
+    private void Draw_Mouse()
+    {
+        Vector3 mousePos = Input.mousePosition;
+        ray = Camera.main.ScreenPointToRay(mousePos);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (hit.collider.gameObject.GetComponent<Whiteboard>())
+            {
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    LineRenderer currScribble = (LineRenderer)Instantiate(scribble, new Vector3(hit.point.x, hit.point.y, hit.point.z), Quaternion.identity);
+                    currScribble.startWidth = width;
+                    currScribble.endWidth = width;
+
+                    currScribble.SetPosition(0, hit.point);
+
+                    lastPoint = new Vector3(hit.point.x + offset, hit.point.y + offset, hit.point.z);
+
+                    currScribble.SetPosition(1, lastPoint);
+
+                    currScribble.transform.parent = hit.collider.gameObject.transform;
+
+                }
+                else if (Input.GetMouseButton(0))
+                {
+                    if (IsMoving(lastPoint, hit.point))
+                    {
+                        LineRenderer currScribble = (LineRenderer)Instantiate(scribble, new Vector3(hit.point.x, hit.point.y, hit.point.z), Quaternion.identity);
+                        currScribble.startWidth = width;
+                        currScribble.endWidth = width;
+
+                        currScribble.SetPosition(0, lastPoint);
+                        currScribble.SetPosition(1, hit.point);
+
+                        lastPoint = hit.point;
+
+                        currScribble.transform.parent = hit.collider.gameObject.transform;
+                    }
+                }
+            }
+        }
+    }
+	
+
+
+	// Update is called once per frame
+	void Update () {
+        Draw_Mouse();
+        Draw_VR();
+    }
+
 }
