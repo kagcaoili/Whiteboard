@@ -74,6 +74,7 @@ public class Marker : MonoBehaviour {
     
     public void DrawPoint(Vector3 position, GameObject sourceObject)
     {
+        Debug.Log("Drawing at " + position);
 
         if (activeRenderer && !IsCloseToZero(position) && sourceObject == activeObject)
         {

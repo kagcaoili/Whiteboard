@@ -1133,12 +1133,12 @@ Prefab:
     - target: {fileID: 65036875839384884, guid: 811059f083f309b4db2888256e011852,
         type: 2}
       propertyPath: m_Size.y
-      value: 0.0056484938
+      value: 0.007974327
       objectReference: {fileID: 0}
     - target: {fileID: 65036875839384884, guid: 811059f083f309b4db2888256e011852,
         type: 2}
       propertyPath: m_Center.y
-      value: 0.0010575652
+      value: 0.0022204816
       objectReference: {fileID: 0}
     - target: {fileID: 54472064577519562, guid: 811059f083f309b4db2888256e011852,
         type: 2}
@@ -1154,6 +1154,21 @@ Prefab:
         type: 2}
       propertyPath: DropDistance
       value: 34.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 65036875839384884, guid: 811059f083f309b4db2888256e011852,
+        type: 2}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 65849369579827674, guid: 811059f083f309b4db2888256e011852,
+        type: 2}
+      propertyPath: m_Size.z
+      value: 0.17054285
+      objectReference: {fileID: 0}
+    - target: {fileID: 65849369579827674, guid: 811059f083f309b4db2888256e011852,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0.082211554
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 811059f083f309b4db2888256e011852, type: 2}
