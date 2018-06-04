@@ -4,8 +4,12 @@ using UnityEngine;
 
 public class MarkerTip : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+
+    public bool drawPrepped = false;
+    public bool drawing = false;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
@@ -13,4 +17,22 @@ public class MarkerTip : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    public void PrepDraw()
+    {
+        if (!drawing)
+        {
+            drawPrepped = true;
+        }
+
+    }
+
+    public void EndDraw()
+    {
+        if (drawing)
+        {
+            drawPrepped = false;
+            drawing = false;
+        }
+    }
 }

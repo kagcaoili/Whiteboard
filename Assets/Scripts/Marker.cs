@@ -15,13 +15,18 @@ public class Marker : MonoBehaviour {
 
     private NewtonVR.NVRHand grabbingHand;
 
-	// Use this for initialization
-	void Start () {
+    private float secondTimer = 0.0f;
+    private float secondThreshold = 0.2f;
+
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+        secondTimer += Time.deltaTime;
 		
 
 	}
@@ -63,6 +68,8 @@ public class Marker : MonoBehaviour {
             activeRenderer = CreateNewScribble(initialPosition, sourceObject);
 
         }
+
+        secondTimer = 0.0f;
     }
 
     public void SetMarkerUp()
@@ -74,18 +81,30 @@ public class Marker : MonoBehaviour {
     
     public void DrawPoint(Vector3 position, GameObject sourceObject)
     {
-        Debug.Log("Drawing at " + position);
+        //Debug.Log(string.Format("Drawing at {0}, {1}, {2}", position.x, position.y, position.z));
 
         if (activeRenderer && !IsCloseToZero(position) && sourceObject == activeObject)
         {
-            activeRenderer.positionCount = activeDrawIndex + 1;
-            activeRenderer.SetPosition(activeDrawIndex++, position);
+
+            if (secondTimer > secondThreshold)
+            {
+                SetMarkerUp();
+                activeRenderer = CreateNewScribble(position, sourceObject);
+            }
+            else
+            {
+                activeRenderer.positionCount = activeDrawIndex + 1;
+                activeRenderer.SetPosition(activeDrawIndex++, position);
+            }
+
             TriggerDrawHaptic();
         }
         else if (activeRenderer == null)
         {
             CreateNewScribble(position, sourceObject);
         }
+
+        secondTimer = 0.0f;
     }
 
     public NewtonVR.NVRHand GetGrabbingHand()
