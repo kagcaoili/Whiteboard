@@ -71,6 +71,19 @@ public class EnableObjectButton : MonoBehaviour {
             else
             {
                 SetButtonColor(inactiveColor);
+
+                if (objectToEnable.GetComponent<DrawableObject>())
+                {
+
+                    foreach (LineRenderer child in objectToEnable.GetComponentsInChildren<LineRenderer>())
+                    {
+
+                        GameObject.Destroy(child.gameObject);
+
+                    }
+
+                }
+
             }
 
         }
